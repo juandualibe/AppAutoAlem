@@ -6,12 +6,16 @@
 package com.mycompany.appautoalem;
 
 import java.sql.Date;
+import java.io.Serializable;
 
 /**
  *
  * @author juand
  */
-public class Vehiculo {
+public class Vehiculo implements Serializable{
+    //private static final long serialVersionUID = 1L; // Es buena práctica incluir un serialVersionUID
+    
+
 
     private String matricula;
     private String marca;

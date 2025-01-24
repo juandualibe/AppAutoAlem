@@ -9,7 +9,7 @@ import java.util.List;
 public class VehiculoDAO {
 
     // Método para obtener los vehículos de la base de datos
-    public List<Vehiculo> obtenerVehiculos() {
+    public static List<Vehiculo> obtenerVehiculos() {
         List<Vehiculo> vehiculos = new ArrayList<>();
         String sql = "SELECT * FROM Vehiculos";
         
