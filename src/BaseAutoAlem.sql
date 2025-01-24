@@ -10,17 +10,9 @@ CREATE TABLE Vehiculos (
     matricula VARCHAR(20) UNIQUE,
     marca VARCHAR(50),
     modelo VARCHAR(50),
-    fecha_entrega DATE,
-    estado VARCHAR(50)
-);
-
--- Tabla Seguimiento
-CREATE TABLE Seguimiento (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    id_vehiculo INT,
-    fecha DATE,
-    detalle TEXT, -- Detalles del estado del vehículo, comentarios, etc.
-    FOREIGN KEY (id_vehiculo) REFERENCES Vehiculos(id)
+    fecha_entrega DATETIME,
+    estado ENUM('Señado', 'En preparación', 'Listo para entrega'),
+    ubicacion ENUM('En Chapista', 'En Taller', 'En Agencia')
 );
 
 INSERT INTO Vehiculos (matricula, marca, modelo, fecha_entrega, estado) VALUES

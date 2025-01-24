@@ -16,7 +16,7 @@ import java.util.List;
 
 public class VehiculoController {
     // Suponiendo que tienes una clase VehiculoDAO para interactuar con la base de datos.
-    private VehiculoDAO vehiculoDAO;
+    private final VehiculoDAO vehiculoDAO;
 
     public VehiculoController() {
         vehiculoDAO = new VehiculoDAO();
@@ -30,8 +30,8 @@ public class VehiculoController {
         vehiculoDAO.eliminar(matricula);
     }
 
-    public void actualizarEstado(String matricula, String nuevoEstado) {
-        vehiculoDAO.actualizarEstado(matricula, nuevoEstado);
+    public void actualizar(String matricula, String nuevoEstado, String nuevaUbicacion) {
+        vehiculoDAO.actualizar(matricula, nuevoEstado, nuevaUbicacion);
     }
 
     public List<Vehiculo> listarVehiculos() {

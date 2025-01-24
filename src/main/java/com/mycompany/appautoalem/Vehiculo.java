@@ -18,14 +18,16 @@ public class Vehiculo {
     private String modelo;
     private String fechaEntrega;
     private String estado;
+    private String ubicacion;
 
     // Constructor con los parámetros que necesitas
-    public Vehiculo(String matricula, String marca, String modelo, String fechaEntrega, String estado) {
+    public Vehiculo(String matricula, String marca, String modelo, String fechaEntrega, String estado, String ubicacion) {
         this.matricula = matricula;
         this.marca = marca;
         this.modelo = modelo;
         this.fechaEntrega = fechaEntrega;
         this.estado = estado;
+        this.ubicacion = ubicacion;
     }
 
     // Getters y setters
@@ -66,5 +68,13 @@ public class Vehiculo {
     
     public void setEstado(String estado){
         this.estado = estado;
+    }
+    
+    public String getUbicacion(){
+        return ubicacion;
+    }
+    
+    public void setUbicacion(String ubicacion){
+        this.ubicacion = ubicacion;
     }
 }

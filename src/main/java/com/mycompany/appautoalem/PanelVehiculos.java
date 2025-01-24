@@ -27,7 +27,7 @@ public class PanelVehiculos extends JPanel {
         List<Vehiculo> vehiculos = vehiculoDAO.obtenerVehiculos();
         
         // Definir las columnas para la tabla
-        String[] columnas = {"ID", "Matricula", "Marca", "Modelo", "Estado", "Fecha de entrega"};
+        String[] columnas = {"ID", "Matricula", "Marca", "Modelo", "Estado", "Fecha de entrega", "Ubicacion"};
         
         // Crear los datos de la tabla
         Object[][] datos = new Object[vehiculos.size()][8];
@@ -38,7 +38,8 @@ public class PanelVehiculos extends JPanel {
                 v.getMarca(),
                 v.getModelo(),               
                 v.getFechaEntrega(),                
-                v.getEstado()                
+                v.getEstado(),
+                v.getUbicacion()
             };
         }
         

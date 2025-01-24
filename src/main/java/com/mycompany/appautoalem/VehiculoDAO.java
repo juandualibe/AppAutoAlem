@@ -23,7 +23,8 @@ public class VehiculoDAO {
                         rs.getString("marca"),
                         rs.getString("modelo"),
                         rs.getString("fecha_entrega"),
-                        rs.getString("estado")
+                        rs.getString("estado"),
+                        rs.getString("ubicacion")
                 );
                 vehiculos.add(vehiculo);
             }
@@ -35,7 +36,7 @@ public class VehiculoDAO {
 
     // Método para agregar un vehículo a la base de datos
     public void agregar(Vehiculo vehiculo) {
-        String sql = "INSERT INTO Vehiculos (matricula, marca, modelo, fecha_entrega, estado) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Vehiculos (matricula, marca, modelo, fecha_entrega, estado, ubicacion) VALUES (?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = ConexionBD.conectar(); 
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -45,12 +46,15 @@ public class VehiculoDAO {
             stmt.setString(3, vehiculo.getModelo());
 
             // Convertir la fecha a tipo java.sql.Date
-            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy");
-            java.util.Date fecha = inputFormat.parse(vehiculo.getFechaEntrega());
-            java.sql.Date sqlDate = new java.sql.Date(fecha.getTime());
+            // Convertir la fecha y hora a tipo java.sql.Timestamp
+            SimpleDateFormat inputFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");  // Incluye la hora
+            java.util.Date fecha = inputFormat.parse(vehiculo.getFechaEntrega());  // Suponiendo que vehiculo.getFechaEntrega() es la fecha y hora en formato String
+            java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(fecha.getTime());  // Utilizamos Timestamp en lugar de Date
 
-            stmt.setDate(4, sqlDate); // Establece la fecha como java.sql.Date
+
+            stmt.setTimestamp(4, sqlTimestamp); // Establece la fecha como java.sql.Date
             stmt.setString(5, vehiculo.getEstado());
+            stmt.setString(6, vehiculo.getUbicacion());
 
             stmt.executeUpdate();
         } catch (SQLException | java.text.ParseException e) {
@@ -72,20 +76,44 @@ public class VehiculoDAO {
         }
     }
 
-    // Método para actualizar el estado de un vehículo
-    public void actualizarEstado(String matricula, String nuevoEstado) {
-        String sql = "UPDATE Vehiculos SET estado = ? WHERE matricula = ?";
-        
-        try (Connection conn = ConexionBD.conectar(); 
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    // Método para actualizar el estado y la ubicacion de un vehículo
+    public void actualizar(String matricula, String nuevoEstado, String nuevaUbicacion) {
+    StringBuilder sql = new StringBuilder("UPDATE Vehiculos SET ");
+    List<Object> parametros = new ArrayList<>();
 
-            stmt.setString(1, nuevoEstado);
-            stmt.setString(2, matricula);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("Error al actualizar el estado: " + e.getMessage());
-        }
+    // Verificamos si el nuevo estado no es null ni vacío y lo agregamos a la consulta
+    if (nuevoEstado != null && !nuevoEstado.isEmpty()) {
+        sql.append("estado = ?, ");
+        parametros.add(nuevoEstado);
     }
+
+    // Verificamos si la nueva ubicación no es null ni vacía y lo agregamos a la consulta
+    if (nuevaUbicacion != null && !nuevaUbicacion.isEmpty()) {
+        sql.append("ubicacion = ?, ");
+        parametros.add(nuevaUbicacion);
+    }
+
+    // Quitamos la última coma
+    sql.delete(sql.length() - 2, sql.length());
+
+    sql.append(" WHERE matricula = ?");
+
+    // Agregar matrícula al final de los parámetros
+    parametros.add(matricula);
+
+    try (Connection conn = ConexionBD.conectar(); 
+         PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+
+        // Establecemos los parámetros de la consulta
+        for (int i = 0; i < parametros.size(); i++) {
+            stmt.setObject(i + 1, parametros.get(i));
+        }
+
+        stmt.executeUpdate();
+    } catch (SQLException e) {
+        System.out.println("Error al actualizar el estado o la ubicación: " + e.getMessage());
+    }
+}
     public List<Vehiculo> listar() {
         return obtenerVehiculos(); // Utiliza el mismo método de obtenerVehiculos
     }
