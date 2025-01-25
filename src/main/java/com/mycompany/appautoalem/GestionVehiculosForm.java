@@ -22,6 +22,7 @@ public class GestionVehiculosForm extends javax.swing.JFrame {
         actualizarTabla();
         PanelVehiculos panelVehiculos = new PanelVehiculos();
         add(panelVehiculos);
+        
     }
 
     /** This method is called from within the constructor to

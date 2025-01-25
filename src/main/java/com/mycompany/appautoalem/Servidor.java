@@ -36,6 +36,7 @@ public class Servidor {
                 //Filtramos vehículos según los estados que interesan
                 List<Vehiculo> alertas = vehiculos.stream()
                         .filter(v -> v.getEstado().equalsIgnoreCase("Señado") || v.getEstado().equalsIgnoreCase("En preparación"))
+                        .filter(v -> v.getUbicacion().equalsIgnoreCase("En Taller") || v.getUbicacion().equalsIgnoreCase("En Agencia") || v.getUbicacion().equalsIgnoreCase("En Chapista")) 
                         .toList();
                 
                 //Enviar la lista de alertas al Cliente

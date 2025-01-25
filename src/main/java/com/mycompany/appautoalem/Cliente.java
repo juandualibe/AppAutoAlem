@@ -20,6 +20,7 @@ public class Cliente {
         DefaultTableModel modelo = new DefaultTableModel();
         modelo.addColumn("Matrícula");
         modelo.addColumn("Estado");
+        modelo.addColumn("Ubicación");
 
         JTable tabla = new JTable(modelo);
         JScrollPane scrollPane = new JScrollPane(tabla);
@@ -42,7 +43,7 @@ public class Cliente {
 
                 // Si hay alertas, agregarlas a la tabla
                 for (Vehiculo v : alertas) {
-                    modelo.addRow(new Object[]{v.getMatricula(), v.getEstado()});
+                    modelo.addRow(new Object[]{v.getMatricula(), v.getEstado(), v.getUbicacion()});
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
